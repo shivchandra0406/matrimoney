@@ -5,7 +5,7 @@ from .serializer import *
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view
-from django.contrib.auth.hashers import check_password
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 from .mail import *
@@ -50,11 +50,13 @@ class LoginView(APIView):
                     user = authenticate(request,mobilenumber=mobilenumber,password=password)
                     print(user)
                     if user:
-                        
+                        token,_=Token.objects.get_or_create(user=user)
                         return Response({
                         'status':"Success",
+                        'token':str(token),
                         'details':"login successfully"
                         })
+                    
                     else:
                         return Response({
                         'status':"Failure",

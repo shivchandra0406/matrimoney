@@ -16,10 +16,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         'employed_in','family_value','pic','email','first_name','last_name',]
         read_only_fields=['otp']
         # def create(self,validated_data):
+        #     print(validated_data)
         #     otp=random.randint(999,9999)
-        #     obj=Registration.objects.create(**validated_data)
+        #     obj=Registration.objects.create(validated_data)
         #     obj.otp=otp
         #     obj.save()
+            
         #     return obj
         #read_only_fields=['mobilenumber']
 

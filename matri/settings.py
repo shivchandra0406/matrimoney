@@ -121,7 +121,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATIC_ROOT='/staticfiles'
+STATIC_ROOT=BASE_DIR / 'static'
 STATIC_URL = '/static/'
 
 # Default primary key field type
@@ -134,8 +134,8 @@ AUTH_USER_MODEL='app.Registration'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'shivchandk97@gmail.com'
-EMAIL_HOST_PASSWORD ='Shiv@406'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD =''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

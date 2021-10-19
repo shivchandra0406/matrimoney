@@ -1,11 +1,14 @@
 from django.contrib.auth.base_user import BaseUserManager
-
+import random
 class UserManager(BaseUserManager):
     use_in_migrations=True
     def create(self,mobilenumber,password=None,**extra_fields):
         if mobilenumber:
+            otp=random.randint(999,9999)
             user=self.model(mobilenumber=mobilenumber,**extra_fields)
             user.set_password(password)
+            user.otp=otp
+            user.is_active=False
             user.save(using=self._db)
             return user
         else:

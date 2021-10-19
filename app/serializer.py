@@ -13,7 +13,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model=Registration
         fields=['uid','password','mobilenumber','religion','gender','mother_tongue','caste','dosh','height','marital_status','any_disability',
         'family_status','family_type','education','annual_income','work_location','residing_state','city','occupation',
-        'employed_in','family_value','pic','email','first_name','last_name']
+        'employed_in','family_value','pic','email','first_name','last_name',]
+        read_only_fields=['otp']
+        # def create(self,validated_data):
+        #     otp=random.randint(999,9999)
+        #     obj=Registration.objects.create(**validated_data)
+        #     obj.otp=otp
+        #     obj.save()
+        #     return obj
         #read_only_fields=['mobilenumber']
 
 class LoginSerializer(serializers.Serializer):
@@ -26,7 +33,7 @@ class ChangeSerializer(serializers.Serializer):
 
 class UrlValidateSerializer(serializers.Serializer):
     #mobilenumber=serializers.CharField(required=True)
-    otp=serializers.CharField(required=True)
+    otp=serializers.IntegerField(required=True)
 
 class SendOtpSerializer(serializers.ModelSerializer):
     mobilenumber=serializers.CharField(required=True)

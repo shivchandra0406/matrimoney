@@ -183,7 +183,11 @@ class VerifyOtp(APIView):
             if mseriailizer.is_valid():
                 obj=Registration.objects.filter(mobilenumber=mobilenumber).first()
                 if obj is not None:
+                    print(obj.otp,"",mseriailizer.data['otp'])
                     if mseriailizer.data['otp']==obj.otp:
+                        
+                        obj.is_active=True
+                        obj.save()
                         return Response({
                             'status':'Success',
                             'details':'otp verify successfully'

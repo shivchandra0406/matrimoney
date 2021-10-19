@@ -48,7 +48,7 @@ class Registration(AbstractUser):
     work_location=models.CharField(max_length=100,choices=work_choices)
     residing_state=models.CharField(max_length=100)
     city=models.CharField(max_length=100)
-
+    otp=models.IntegerField()
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 

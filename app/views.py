@@ -207,6 +207,8 @@ def sendOpt(request):
             'message':'somthing went wrong'
         })
 
+
+
 class VerifyOtp(APIView):
     def post(self,request):
         try:

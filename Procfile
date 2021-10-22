@@ -1,1 +1,1 @@
-web:gunicorn matri.wsgi
+web: gunicorn matri.wsgi

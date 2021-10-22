@@ -1,1 +1,1 @@
-web:gunicorn matri.wsgi --log-file -
+web:gunicorn matri.wsgi

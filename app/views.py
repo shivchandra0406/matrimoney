@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 # Create your views here.
+import random
 
 from .mail import *
 
@@ -33,7 +34,41 @@ class RegistrationView(APIView):
                     "details":"error"
     
             }) 
-import random
+
+
+    def patch(self,request):
+        try:
+            data=request.data
+            mobilenumber=request.GET.get('mobilenumber')
+            obj=Registration.objects.filter(mobilenumber=mobilenumber).first()
+            if obj is not None:
+                serializer=RegistrationSerializer(obj,data=data,partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({
+                        'status':'Success',
+                        'message':"data save successfully",
+                        'details':serializer.data
+                    })
+                else:
+                    return Response({
+                        'status':'Failure',
+                        'message':"data Invalid",
+                        'details':serializer.errors
+                    })
+            else:
+                return Response({
+                    'status':'Failure',
+                    'details':'mobilenumber is not found'
+                    })
+                    
+        except Exception as e:
+            print(e)
+            return Response({
+                'status':"error",
+                'details':'something went wrong'
+            })
+
 class LoginView(APIView):
     def post(self,request):
         try:
@@ -178,10 +213,11 @@ class VerifyOtp(APIView):
             mobilenumber=request.GET.get('mobilenumber')
         
             data=request.data
-            print(data)
+            print(data,mobilenumber)
             mseriailizer=UrlValidateSerializer(data=data)
             if mseriailizer.is_valid():
                 obj=Registration.objects.filter(mobilenumber=mobilenumber).first()
+                print(obj)
                 if obj is not None:
                     print(obj.otp,"",mseriailizer.data['otp'])
                     if mseriailizer.data['otp']==obj.otp:
@@ -274,7 +310,10 @@ class PackageView(APIView):
     def post(self,request):
         try:
             data=request.data
+            #mobilenumber=request.GET.get('mobilenumber')
+
             serializer=PackageSerializer(data=data)
+            print("ser",serializer.is_valid())
             if serializer.is_valid():
                 serializer.save()
                 return Response({
@@ -286,4 +325,8 @@ class PackageView(APIView):
                 'details':serializer.errors
             })
         except Exception as e:
-            pass
+            print("eeror",e)
+            return Response({
+                'status':"error",
+                'details':'somthing went wrong'
+            })

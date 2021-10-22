@@ -3,6 +3,9 @@ from rest_framework import serializers
 from .models import *
 import random
 from .mail import *
+from datetime import date
+from dateutil.relativedelta import relativedelta
+
 class RegistrationSerializer(serializers.ModelSerializer):
     first_name=serializers.CharField(required=True)
     last_name=serializers.CharField(required=True)
@@ -55,12 +58,29 @@ class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         model=Package
         fields='__all__'
-        # def create(self,validated_data):
-        #     obj=Package.objects.create(
-        #         subscribtion_amount=validated_data['subscribtion_amount'],
-        #         membership=validated_data['membership'],
-        #     )
-        #     Package.registeruser=obj
+    def create(self,validated_data):
+        #print(validated_data)
+        data=Registration.objects.filter(mobilenumber=validated_data['registeruser']).first()
+        print("registeruser",data.uid)
+        m=None
+        if "silver" in validated_data:
+            m = date.today() + relativedelta(months=+3)
+        elif "gold" in validated_data:
+            m = date.today() + relativedelta(months=+6)
+        else:
+            m = date.today() + relativedelta(months=+12)
+        print("shiv",m)
+        
+        obj=Package.objects.create(
+            subscribtion_amount=validated_data['subscribtion_amount'],
+            membership=validated_data['membership'],
+            registeruser=data,
+            expire_pack=m
+            ) 
+        
+        #print(obj)
+        return obj
+            
 
 
 
